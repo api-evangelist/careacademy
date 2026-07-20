@@ -1,0 +1,12 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/careacademy-openapi-original.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BasicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/careacademy-openapi-original.yml
