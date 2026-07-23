@@ -1,0 +1,301 @@
+openapi: 3.0.0
+info:
+  version: 1.0.10
+  title: CareAcademy Compliance Report Practitioners API
+  description: 'The CareAcademy API allows integration partners to create seamless flows between their products and CareAcademy systems. As an integration partner, you can: <br /> <ol> <li>Enable your users to use CareAcademy''s system without requiring them to manage caregiver and organization information in both systems</li> <li>Provide SSO to CareAcademy from your product</li> <li>Query CareAcademy for an organization''s course completion and compliance information</li> <li>Provide access to an organization''s compliance report from your product</li> </ol> <br /> <strong>Example scenarios</strong><br /> 1) Allow your customers to signup for a CareAcademy free trial directly from your product''s user interface. Your customer''s organization and caregiver information can be passed to CareAcademy when the customer chooses to start the free trial from within your product''s interface. Your customer can start a free trial seamlessly from your product''s user interface without having to enter any organization or caregiver information. <br /> <br /> 2) Allow your customers who already have a CareAcademy account to sign in to CareAcademy from your product''s user interface. Your customer''s organization and caregiver details can be pushed into CareAcademy allowing your customer move seamlessly into  CareAcademy''s systems without having to manage separate accounts. <br /> <br /> 3) Display CareAcademy course completion and compliance data in your product. CareAcademy can provide you with granular data around a practitioner’s historical record of course completions including exam percentages and course specific compliance information. <br /> <br /> 4) Provide your customers with a downloadable CareAcademy compliance report that includes all of the CareAcademy compliance related course data for an organization. <br />  <br /> <br /> <strong>Typical Integration Flow</strong><br /> Your customers will need to indicate if they have a CareAcademy account. Typically, CareAcademy integration partners prompt their users with a simple yes/no question asking if the customer already has an account with CareAcademy. <br /> <br /> <u>Your customer is new to CareAcademy</u><br /> If your customer indicates that they do not have a CareAcademy account then your system would make a POST request to the /organizations endpoint. This request creates a CareAcademy free trial, and the response will include a temporary url that you can redirect your customer to in order to log them into CareAcademy. Your customer will then be in a position to try CareAcademy. In this scenario, CareAcademy integration partners are expected to send the customer''s caregiver information to CareAcademy so that the caregivers in your product are available in CareAcademy''s system. This can be achieved by performing POST requests to the /practitioners endpoint. <br /> <br /> Often, CareAcademy integration partner customers have organizations with multiple locations. If this is the case then we highly recommend that your system sends these locations to CareAcademy by making a POST request to /locations after the POST or PUT to /organizations is complete. A locationId can then be provided when making POST requests to /practitioners in order to create caregivers in CareAcademy''s system. If your customer does not have multiple locations in their organization then the locationId can be omitted from the POST to /practitioners. <br /> <br /> <u>Your customer has a CareAcademy Account</u><br /> If your customer indicates that they already have an account at CareAcademy then your system is expected to make a PUT request to the /organizations endpoint. This will trigger a manual process at CareAcademy to enable the integration on the customer''s existing account. In this scenario you will not be able to make further requests against the customer''s CareAcademy account until the account''s integration  is configured by CareAcademy staff. This is a manual process - typically, the user is notified via your UI that CareAcademy will reach out to them to complete the integration.<br /> <br /> <br /> <i>A note regarding "integration ID''s" </i><br /> The term <i>integration ID</i> appears in several endpoint descriptions and parameters. CareAcademy uses the term "integration ID" to represent an entity''s unique ID in an integration partner''s system. These ID''s are expected to be unique within the integration context. <br /> <br /> For example, in order to create a caregiver in CareAcademy''s system - a POST request can be made to the /practitioners endpoint. This endpoint requires an <i>integrationId</i> parameter. This value is typically the primary key value of the caregiver in the CareAcademy integration partner''s system. Upon successfully creating a caregiver in the CareAcademy system, that caregiver could be signed in to CareAcademy by directing the caregiver to the url returned by the sign_in_url endpoint. The sign_in_url endpoint requires a <i>userIntegrationId</i> value. This value is expected to be the integrationId value provided with the POST request to the /practitioner endpoint.'
+servers:
+- url: https://staging.careacademy.com/api/v1
+security:
+- BasicAuth: []
+tags:
+- name: Practitioners
+paths:
+  /practitioners:
+    post:
+      summary: Creates a practitioner. If a practitioner already exists within CareAcademy but has not been linked yet to the integration, this will do so by setting integrationId for the first time with this call.
+      responses:
+        '201':
+          description: The operation was successful.
+          content:
+            '*/*':
+              schema:
+                type: string
+                properties:
+                  additionalInformation:
+                    description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        parameterName:
+                          type: string
+                        description:
+                          type: string
+                  dashboardName:
+                    type: string
+                    description: The name of the dashboard that the practitioner will appear under.
+                  practitioner:
+                    type: object
+                    allOf:
+                    - $ref: '#/components/schemas/PractitionerResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PractitionerWithRequiredFields'
+              properties:
+                isInitialTrainingRequired:
+                  type: boolean
+                  description: "If true, the practitioner will be auto-enrolled into initial bundle (this is the default behavior). If false, the practitioner will not be auto-enrolled into the initial training bundle. \nNote that this value can only be set if the practitioner is being added into CareAcademy for the first time (i.e it cannot be updated)."
+                isAnnualTrainingOverdue:
+                  type: boolean
+                  description: "This value is only used if the practitioner does not need initial training (see the isInitialTrainingRequired parameter). If this value is set to true then the practitioner will be enrolled in annual trainig which is due date immediately. If this value is false then the annual training due date will be in the future as per enrollment schedule in CareAcademy (this is the default behavior). \nNote that this value can only be set if the practitioner is being added into CareAcademy for the first time (i.e it cannot be updated)."
+        description: The information required to create a practitioner.
+      tags:
+      - Practitioners
+  /practitioners/{integrationId}:
+    put:
+      summary: Updates a practitioner.
+      parameters:
+      - in: path
+        name: integrationId
+        required: true
+        description: The practitioner's integration ID.
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/PractitionerCreateOrUpdateSuccessResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Practictioner not found.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Practitioner'
+        description: The practitioner information to update. Only supply the values that should be updated.
+      tags:
+      - Practitioners
+components:
+  responses:
+    BadRequest:
+      description: Bad Request. One or more required parameters are missing or invalid.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              errors:
+                description: An array of field errors. For general errors, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    errorDescription:
+                      type: string
+    PractitionerCreateOrUpdateSuccessResponse:
+      description: The operation was successful.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              practitioner:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/PractitionerResponse'
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+  schemas:
+    Practitioner:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: Indicates if the practitioner is active or not. The default value is true.
+        name:
+          $ref: '#/components/schemas/HumanName'
+        telecom:
+          $ref: '#/components/schemas/ContactPoint'
+        birthDate:
+          type: string
+          format: date
+          description: This parameter is required if the organization's state requires the birthday to be used to calculate due dates and report to auditors. The value should follow the format defined by full-date in RFC3339 (https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+        integrationId:
+          type: string
+          description: ID that will be used to reference the practitioner by the API consumer, such as when using the PUT practitioner end point. This ID must be unique.
+        hireDate:
+          type: string
+          format: date
+          description: Hire date used in calculating compliance due dates and in generating training logs. This value should follow the format defined by full-date in RFC3339 (https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+        organizationIntegrationId:
+          type: string
+          description: Unique identifier of the organization that the practitioner needs to be added to
+        locationId:
+          type: string
+          description: The ID of the location for this practitioner
+        licenseNumber:
+          type: string
+          description: If you need to have the license number of the practitioner to appear in auditing logs (for example a CNA / HHA license number)
+        studentType:
+          type: string
+          description: This can be useful in order to track compliance better and also add the practitioner in the right curriculum track.
+          enum:
+          - home care aide
+          - home health aide
+          - certified nursing assistant
+          - registered nurse
+          - administrator
+        registrationId:
+          type: string
+          description: In states that have registries, this may be required for auditing purposes. In California, for example, it represents the HCA registration ID, which must be a 10 numerical digit string. Otherwise, it will be rejected by our system.
+        registrationDate:
+          type: string
+          format: date
+          description: In states that have registries, this date may be required for auditing purposes. The value should follow the format defined by full-date in RFC3339 (https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+    PractitionerResponse:
+      type: object
+      properties:
+        practitionerIntegrationId:
+          type: string
+          description: The unique identifier for the practitioner.
+        status:
+          type: string
+          description: The status of the practitioner.
+          enum:
+          - active
+          - deleted
+          - deactivated
+        active:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        hireDate:
+          type: string
+          format: date
+        isInitialTrainingRequired:
+          type: boolean
+        isAnnualTrainingOverdue:
+          type: boolean
+        licenseNumber:
+          type: string
+        studentType:
+          type: string
+        registrationId:
+          type: string
+        registrationDate:
+          type: string
+          format: date
+    HumanName:
+      description: 'The name of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#humanname'
+      type: object
+      required:
+      - use
+      - family
+      - given
+      properties:
+        text:
+          type: string
+          description: The full name of the practitioner
+        use:
+          type: string
+          description: The only supported value is "official" - other uses will be ignored.
+        family:
+          type: string
+          description: The family name - often called "surname" or "last name"
+        given:
+          type: array
+          description: Given names. This can include middle name. Often, this will be a single value which is the practictioner's first name.
+          items:
+            type: string
+      example:
+      - text: Jane Smith
+        use: official
+        family: Smith
+        given:
+        - Jane
+    ContactPoint:
+      description: 'The mobile phone number and email address of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#ContactPoint'
+      type: object
+      required:
+      - system
+      - value
+      properties:
+        system:
+          description: The type of contact point. Use "phone" for mobile phone and "email" for email address. All other system types are ignored.
+          type: string
+          enum:
+          - email
+          - phone
+        value:
+          description: The value, for example if the system is "email" then the value would be the email address of the practitioner.
+          type: string
+      example:
+      - system: email
+        value: jane@careacademy.com
+      - system: phone
+        value: 555-555-1234
+    PractitionerWithRequiredFields:
+      required:
+      - integrationId
+      - name
+      - telecom
+      - email
+      - hireDate
+      - organizationIntegrationId
+      allOf:
+      - $ref: '#/components/schemas/Practitioner'
+      properties:
+        state:
+          type: string
+          description: Providing a state will allow CareAcademy to assign this practitioner to a location in the state specified when locationId is omitted.
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

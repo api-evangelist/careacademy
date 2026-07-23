@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  version: 1.0.10
+  title: CareAcademy Compliance Report API
+  description: 'The CareAcademy API allows integration partners to create seamless flows between their products and CareAcademy systems. As an integration partner, you can: <br /> <ol> <li>Enable your users to use CareAcademy''s system without requiring them to manage caregiver and organization information in both systems</li> <li>Provide SSO to CareAcademy from your product</li> <li>Query CareAcademy for an organization''s course completion and compliance information</li> <li>Provide access to an organization''s compliance report from your product</li> </ol> <br /> <strong>Example scenarios</strong><br /> 1) Allow your customers to signup for a CareAcademy free trial directly from your product''s user interface. Your customer''s organization and caregiver information can be passed to CareAcademy when the customer chooses to start the free trial from within your product''s interface. Your customer can start a free trial seamlessly from your product''s user interface without having to enter any organization or caregiver information. <br /> <br /> 2) Allow your customers who already have a CareAcademy account to sign in to CareAcademy from your product''s user interface. Your customer''s organization and caregiver details can be pushed into CareAcademy allowing your customer move seamlessly into  CareAcademy''s systems without having to manage separate accounts. <br /> <br /> 3) Display CareAcademy course completion and compliance data in your product. CareAcademy can provide you with granular data around a practitioner’s historical record of course completions including exam percentages and course specific compliance information. <br /> <br /> 4) Provide your customers with a downloadable CareAcademy compliance report that includes all of the CareAcademy compliance related course data for an organization. <br />  <br /> <br /> <strong>Typical Integration Flow</strong><br /> Your customers will need to indicate if they have a CareAcademy account. Typically, CareAcademy integration partners prompt their users with a simple yes/no question asking if the customer already has an account with CareAcademy. <br /> <br /> <u>Your customer is new to CareAcademy</u><br /> If your customer indicates that they do not have a CareAcademy account then your system would make a POST request to the /organizations endpoint. This request creates a CareAcademy free trial, and the response will include a temporary url that you can redirect your customer to in order to log them into CareAcademy. Your customer will then be in a position to try CareAcademy. In this scenario, CareAcademy integration partners are expected to send the customer''s caregiver information to CareAcademy so that the caregivers in your product are available in CareAcademy''s system. This can be achieved by performing POST requests to the /practitioners endpoint. <br /> <br /> Often, CareAcademy integration partner customers have organizations with multiple locations. If this is the case then we highly recommend that your system sends these locations to CareAcademy by making a POST request to /locations after the POST or PUT to /organizations is complete. A locationId can then be provided when making POST requests to /practitioners in order to create caregivers in CareAcademy''s system. If your customer does not have multiple locations in their organization then the locationId can be omitted from the POST to /practitioners. <br /> <br /> <u>Your customer has a CareAcademy Account</u><br /> If your customer indicates that they already have an account at CareAcademy then your system is expected to make a PUT request to the /organizations endpoint. This will trigger a manual process at CareAcademy to enable the integration on the customer''s existing account. In this scenario you will not be able to make further requests against the customer''s CareAcademy account until the account''s integration  is configured by CareAcademy staff. This is a manual process - typically, the user is notified via your UI that CareAcademy will reach out to them to complete the integration.<br /> <br /> <br /> <i>A note regarding "integration ID''s" </i><br /> The term <i>integration ID</i> appears in several endpoint descriptions and parameters. CareAcademy uses the term "integration ID" to represent an entity''s unique ID in an integration partner''s system. These ID''s are expected to be unique within the integration context. <br /> <br /> For example, in order to create a caregiver in CareAcademy''s system - a POST request can be made to the /practitioners endpoint. This endpoint requires an <i>integrationId</i> parameter. This value is typically the primary key value of the caregiver in the CareAcademy integration partner''s system. Upon successfully creating a caregiver in the CareAcademy system, that caregiver could be signed in to CareAcademy by directing the caregiver to the url returned by the sign_in_url endpoint. The sign_in_url endpoint requires a <i>userIntegrationId</i> value. This value is expected to be the integrationId value provided with the POST request to the /practitioner endpoint.'
+servers:
+- url: https://staging.careacademy.com/api/v1
+security:
+- BasicAuth: []
+tags:
+- name: Compliance Report
+paths:
+  /compliance_report/{organizationIntegrationId}:
+    get:
+      summary: Returns a copy of the compliance report.
+      parameters:
+      - in: path
+        name: organizationIntegrationId
+        required: true
+        description: The integration ID for the organization. This is the same value passed as the organizationIntegrationId parameter to the Organizations POST API endpoint.
+        schema:
+          type: string
+      - in: query
+        name: filter[startDate]
+        required: true
+        description: The starting date of the report you wish to pull. If a date is passed and is unrecognized as a valid date it will return an 'invalid date' error. Date should be in ISO 8601 format.
+        schema:
+          type: string
+      - in: query
+        name: filter[locationId]
+        required: true
+        description: The location ID of the location to retreive data for.
+        schema:
+          type: string
+      - in: query
+        name: filter[endDate]
+        required: false
+        description: The ending date of the report you wish to pull. If a date is passed and is unrecognized as a valid date it will return an 'invalid date' error. Date should be in ISO 8601 format. If no value is passed then the report end date defaults to the current time.
+        schema:
+          type: string
+      - in: query
+        name: filter[completeIncomplete]
+        required: false
+        description: Specifies whether you wish to see a report of all completed courses, or courses that are not yet completed. The default for this parameter is “complete”. If a value of “incomplete” is passed, it will return the courses that are incomplete.
+        schema:
+          type: string
+      - in: query
+        name: page[after]
+        required: false
+        description: 'Specifies the zero based index of the page of data that you would like to retrieve. For example, if you would like the second page of data then you would provide page[after]=1, or you would provide page[after]=2 in order to retrieve the third page of data. The response will include the first page of data when no page[after] value is provided. Note: the json response includes a "links" key which will contain a relative url that you can use to retrieve the next page of data. The "links" key is only included in the response when there are multiple pages of data'
+        schema:
+          type: string
+      - in: header
+        name: Accept
+        required: false
+        description: Specifies how you would like the data returned. Allowed values are "text/csv" and "application/json".
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/csv:
+              schema:
+                type: string
+                example: Agency Name,First Name,Last Name,Integration ID,Title,Hire Date,Has State Registration,HCA Registration Date,HCA Registration ID,Birth Date,License Number,Employee ID,Total Duration (hours),Course Name,Course Completion Date,Course Description,Outline,State Approvals,Course Organization,Course Instructor,Course Location,Course Duration (hours),Is Initial,Is Annual,Exam Result,Course Duration (minutes)
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                  - agencyName: agency 1
+                    birthday: 2/15/57
+                    completedDate: '2022-10-31T00:00:00Z'
+                    courseName: Clients' Rights, HIPAA & Elder Abuse Prevention
+                    description: In this CareAcademy class, we discuss clients' confidentiality, privacy, and related rights. We also discuss elder abuse and neglect, including how to prevent it and how to report it if it does occur.
+                    durationInMinutes: 60
+                    examResultPercentage: 95
+                    firstName: Harry
+                    hcaRegDate: '2021-10-31T00:00:00Z'
+                    hcaRegId: abcdef
+                    hireDate: '2020-10-31T00:00:00Z'
+                    instructor: Samantha Jones
+                    integrationId: abc-def
+                    isAnnual: false
+                    isInitial: true
+                    lastName: Jones
+                    title: Home Care Aide
+                    licenseNumber: '123456'
+                    location: www.careacademy.com
+                    organization: CareAcademy.com | 1.866.227.3895 | hello@careacademy.com
+                    outline: Course outline information
+                  links:
+                    next:
+                      href: /api/v1/compliance_report/organizationID?page[after]=1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: An organization could not be found for the given organizationIntegrationId.
+      tags:
+      - Compliance Report
+components:
+  responses:
+    BadRequest:
+      description: Bad Request. One or more required parameters are missing or invalid.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              errors:
+                description: An array of field errors. For general errors, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    errorDescription:
+                      type: string
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
