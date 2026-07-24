@@ -1,0 +1,28 @@
+# CareAcademy
+
+> CareAcademy (part of Activated Insights) is an online training, compliance, and workforce-management platform for post-acute care — home care, home health, hospice, and senior living. The CareAcademy API lets integration partners create agencies and caregivers, provide Single Sign-On into CareAcademy, and pull course-completion and compliance data into their own products.
+
+## API
+
+- [CareAcademy API (SwaggerHub)](https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10): OpenAPI 3.0 reference for the partner integration API (v1.0.10). HTTP Basic auth.
+- [API & Integrations overview](https://activatedinsights.com/training/api/): what the API does and the named integration partners.
+
+## Specs
+
+- [OpenAPI (original, harvested)](openapi/careacademy-openapi-original.yml): CareAcademy API 1.0.10, base path /api/v1.
+- [Authentication profile](authentication/careacademy-authentication.yml): HTTP Basic.
+- [Conventions](conventions/careacademy-conventions.yml): pagination, filtering, content negotiation, integration-ID identity model.
+- [Error catalog](errors/careacademy-problem-types.yml): 400/401/403/404 and the custom error envelope.
+- [Data model](data-model/careacademy-data-model.yml): Organization, Location, Practitioner, ComplianceReport, Admin.
+- [Conformance](conformance/careacademy-conformance.yml): OpenAPI 3.0, HTTP Basic, FHIR datatypes, RFC3339/ISO 8601 dates.
+- [Lifecycle](lifecycle/careacademy-lifecycle.yml): URI-path versioning (v1), status page.
+- [MCP tools (candidate)](mcp/careacademy-mcp.yml): one tool per API operation.
+
+## Docs
+
+- [Developer/API page](https://activatedinsights.com/training/api/)
+- [Help Center](https://help.careacademy.com/hc/en-us)
+- [Status](https://status.careacademy.com)
+- [Pricing](https://careacademy.com/pricing/)
+- [Sign up (free trial)](https://go.careacademy.com/signup)
+- [Sign in](https://go.careacademy.com/users/sign_in)

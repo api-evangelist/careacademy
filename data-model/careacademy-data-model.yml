@@ -1,0 +1,60 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/careacademy-openapi-original.yml
+entities:
+  - name: Organization
+    description: An agency/customer account in CareAcademy, created as a free trial or linked to an existing account.
+    id_field: organizationIntegrationId
+    key_fields: [organizationName, organizationState, adminFirstName, adminLastName, adminEmail, adminIntegrationId]
+  - name: Location
+    description: A physical location/branch belonging to an organization.
+    id_field: id
+    key_fields: [name, resourceType]
+  - name: Practitioner
+    description: A caregiver/learner (home care aide, HHA, CNA, RN, administrator) enrolled for training and compliance.
+    id_field: integrationId
+    schema: Practitioner
+    key_fields: [name, telecom, email, hireDate, studentType, licenseNumber, registrationId]
+  - name: ComplianceReport
+    description: A per-organization report of course completions, exam results and compliance data (JSON or CSV).
+    key_fields: [courseName, completedDate, examResultPercentage, isInitial, isAnnual]
+  - name: Admin
+    description: The organization administrator user, created alongside the organization.
+    id_field: adminIntegrationId
+relationships:
+  - from: Location
+    to: Organization
+    type: belongs_to
+    via: organizationIntegrationId
+  - from: Practitioner
+    to: Organization
+    type: belongs_to
+    via: organizationIntegrationId
+  - from: Practitioner
+    to: Location
+    type: belongs_to
+    via: locationId
+  - from: Organization
+    to: Location
+    type: has_many
+    via: organizationIntegrationId
+  - from: Organization
+    to: Practitioner
+    type: has_many
+    via: organizationIntegrationId
+  - from: Organization
+    to: Admin
+    type: has_one
+    via: adminIntegrationId
+  - from: ComplianceReport
+    to: Organization
+    type: belongs_to
+    via: organizationIntegrationId
+  - from: ComplianceReport
+    to: Location
+    type: belongs_to
+    via: "filter[locationId]"
+notes: >-
+  All entities are addressed by caller-supplied "integration IDs" rather than
+  CareAcademy-native surrogate keys. FHIR datatypes (HumanName, ContactPoint) are
+  reused for practitioner name/contact.

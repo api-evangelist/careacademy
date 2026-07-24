@@ -1,0 +1,25 @@
+generated: '2026-07-18'
+method: searched
+source: live probes of /.well-known/ on CareAcademy hosts
+hosts:
+  - host: https://careacademy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://go.careacademy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+note: No /.well-known/ discovery documents are published. Absence recorded as valid data.

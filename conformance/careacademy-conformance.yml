@@ -1,0 +1,40 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/careacademy-openapi-original.yml
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: openapi 3.0.0 document published on SwaggerHub
+  - id: http-basic-auth
+    conforms: true
+    evidence: securitySchemes BasicAuth type http scheme basic
+  - id: oauth2
+    conforms: false
+  - id: oidc
+    conforms: false
+  - id: fhir-datatypes
+    conforms: true
+    evidence: >-
+      HumanName and ContactPoint schemas follow HL7 FHIR datatypes
+      (referenced hl7.org/fhir/datatypes.html in schema descriptions)
+  - id: fhir-r4-resources
+    conforms: false
+    evidence: FHIR datatypes reused, but endpoints are not FHIR RESTful resources
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: custom error envelope (errors[]/additionalInformation[]), not application/problem+json
+  - id: rfc3339-dates
+    conforms: true
+    evidence: birthDate/hireDate/registrationDate documented as RFC3339 full-date
+  - id: iso8601-dates
+    conforms: true
+    evidence: compliance_report filter[startDate]/filter[endDate] documented as ISO 8601
+  - id: pagination
+    conforms: true
+    evidence: page[after] cursor index with links.next.href on /compliance_report
+  - id: content-negotiation
+    conforms: true
+    evidence: Accept header selects application/json or text/csv on /compliance_report
+  - id: idempotency
+    conforms: false
+    evidence: no idempotency-key contract documented

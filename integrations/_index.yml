@@ -1,0 +1,50 @@
+generated: '2026-07-18'
+method: searched
+source: https://activatedinsights.com/training/api/
+note: >-
+  CareAcademy names these home-care/home-health platform integration partners on
+  its API & Integrations page. None have catalog OpenAPI available for a verified
+  2-source Arazzo, so all are listing-only (arazzo: null). Do not fabricate ops.
+integrations:
+  - slug: careacademy-wellsky
+    label: WellSky
+    partner: wellsky
+    category: home-care-software
+    use_case: Provision agencies/caregivers and surface compliance data in WellSky.
+    arazzo: null
+    status: pending-partner-spec
+  - slug: careacademy-axiscare
+    label: AxisCare
+    partner: axiscare
+    category: home-care-software
+    use_case: Sync caregivers and training compliance between AxisCare and CareAcademy.
+    arazzo: null
+    status: pending-partner-spec
+  - slug: careacademy-alayacare
+    label: AlayaCare
+    partner: alayacare
+    category: home-care-software
+    use_case: Onboard caregivers and pull compliance reporting into AlayaCare.
+    arazzo: null
+    status: pending-partner-spec
+  - slug: careacademy-ersp
+    label: eRSP
+    partner: ersp
+    category: home-care-software
+    use_case: Connect eRSP agency records to CareAcademy training and SSO.
+    arazzo: null
+    status: pending-partner-spec
+  - slug: careacademy-aaniie
+    label: Aaniie
+    partner: aaniie
+    category: home-care-software
+    use_case: Automate caregiver management and compliance between Aaniie and CareAcademy.
+    arazzo: null
+    status: pending-partner-spec
+  - slug: careacademy-spectrum-teletrack
+    label: Spectrum TeleTrack Services
+    partner: spectrum-teletrack
+    category: home-care-software
+    use_case: Link Spectrum TeleTrack agency data to CareAcademy training and reporting.
+    arazzo: null
+    status: pending-partner-spec

@@ -1,0 +1,19 @@
+generated: '2026-07-18'
+method: searched
+source: openapi/careacademy-openapi-original.yml
+environments:
+  - name: staging
+    base_url: https://staging.careacademy.com/api/v1
+    detail: >-
+      The published CareAcademy API OpenAPI declares the staging host as its
+      server, giving integration partners a test-vs-live separation. Integration
+      credentials (HTTP Basic) are provisioned per partner by CareAcademy staff;
+      no self-serve test keys or magic test identifiers are published.
+test_values:
+  documented: false
+  detail: >-
+    No published test cards, magic identifiers, or hosted test tokens. Integration
+    testing uses partner-supplied "integration IDs" against the staging environment.
+credentials:
+  provisioning: manual
+  detail: API credentials are set up by CareAcademy / Activated Insights staff for approved integration partners.

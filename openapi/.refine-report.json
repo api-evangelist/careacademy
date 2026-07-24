@@ -1,0 +1,22 @@
+{
+  "provider": "careacademy",
+  "sources": [
+    "careacademy-compliance-report-api-openapi.yml",
+    "careacademy-locations-api-openapi.yml",
+    "careacademy-organizations-api-openapi.yml",
+    "careacademy-practitioners-api-openapi.yml",
+    "careacademy-sign-in-url-api-openapi.yml"
+  ],
+  "outputs": [
+    "careacademy-compliance-report-api-openapi.yml",
+    "careacademy-locations-api-openapi.yml",
+    "careacademy-organizations-api-openapi.yml",
+    "careacademy-practitioners-api-openapi.yml",
+    "careacademy-sign-in-url-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

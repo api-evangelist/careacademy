@@ -1,0 +1,58 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/careacademy-openapi-original.yml
+format: custom
+envelope:
+  description: >-
+    Errors are returned as a JSON object. Field-level problems appear under
+    `errors[]` (parameterName + errorDescription); non-fatal warnings and
+    general information appear under `additionalInformation[]` (parameterName +
+    description). For general (non-field) messages the parameterName value is "_".
+  fields:
+    - errors[].parameterName
+    - errors[].errorDescription
+    - additionalInformation[].parameterName
+    - additionalInformation[].description
+problems:
+  - status: 400
+    title: Bad Request
+    description: One or more required parameters are missing or invalid.
+    source_operations:
+      - POST /organizations/{organizationIntegrationId}
+      - PUT /organizations/{organizationIntegrationId}
+      - POST /locations/{organizationIntegrationId}
+      - GET /sign_in_url
+      - GET /compliance_report/{organizationIntegrationId}
+      - POST /practitioners
+      - PUT /practitioners/{integrationId}
+  - status: 401
+    title: Unauthorized
+    description: Authentication information is missing or invalid.
+    source_operations:
+      - POST /organizations/{organizationIntegrationId}
+      - PUT /organizations/{organizationIntegrationId}
+      - POST /locations/{organizationIntegrationId}
+      - GET /sign_in_url
+      - GET /compliance_report/{organizationIntegrationId}
+      - POST /practitioners
+      - PUT /practitioners/{integrationId}
+  - status: 403
+    title: Forbidden
+    description: >-
+      The identity associated with the API credentials for this request is not
+      allowed to perform the requested operation.
+    source_operations:
+      - POST /locations/{organizationIntegrationId}
+      - GET /sign_in_url
+      - POST /practitioners
+      - PUT /practitioners/{integrationId}
+  - status: 404
+    title: Not Found
+    description: >-
+      The referenced resource could not be found. On /sign_in_url the user was
+      not found; on /compliance_report and /practitioners the organization or
+      practitioner could not be found for the given integration ID.
+    source_operations:
+      - GET /sign_in_url
+      - GET /compliance_report/{organizationIntegrationId}
+      - PUT /practitioners/{integrationId}

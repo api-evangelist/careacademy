@@ -1,0 +1,32 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: openapi/careacademy-openapi-original.yml
+note: >-
+  No official hosted/remote MCP server was found for CareAcademy. This is a
+  candidate tool list derived one-to-one from the published OpenAPI operations.
+server:
+  name: careacademy
+  transport: http
+tools:
+  - name: create_organization
+    description: Create a CareAcademy free-trial organization (or update/link an existing one) by integration ID.
+    source_operation: openapi/careacademy-openapi-original.yml#POST /organizations/{organizationIntegrationId}
+  - name: flag_organization_for_review
+    description: Flag an existing organization for manual review to associate it with locations.
+    source_operation: openapi/careacademy-openapi-original.yml#PUT /organizations/{organizationIntegrationId}
+  - name: create_locations
+    description: Create or associate one or more locations with an organization.
+    source_operation: openapi/careacademy-openapi-original.yml#POST /locations/{organizationIntegrationId}
+  - name: get_sign_in_url
+    description: Retrieve a temporary Single Sign-On URL for a user by integration ID or email.
+    source_operation: openapi/careacademy-openapi-original.yml#GET /sign_in_url
+  - name: get_compliance_report
+    description: Retrieve an organization's course-completion and compliance report (JSON or CSV).
+    source_operation: openapi/careacademy-openapi-original.yml#GET /compliance_report/{organizationIntegrationId}
+  - name: create_practitioner
+    description: Create a caregiver/practitioner and optionally auto-enroll them in initial training.
+    source_operation: openapi/careacademy-openapi-original.yml#POST /practitioners
+  - name: update_practitioner
+    description: Update an existing practitioner by integration ID.
+    source_operation: openapi/careacademy-openapi-original.yml#PUT /practitioners/{integrationId}

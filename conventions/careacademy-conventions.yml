@@ -1,0 +1,75 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/careacademy-openapi-original.yml
+docs: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+authentication:
+  style: http-basic
+  scheme: BasicAuth
+  detail: >-
+    All endpoints require HTTP Basic authentication. Integration credentials are
+    provisioned by CareAcademy staff. See authentication/careacademy-authentication.yml.
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency-key header or parameter is documented. Writes are keyed by
+    caller-supplied "integration IDs" (organizationIntegrationId, adminIntegrationId,
+    practitioner integrationId), which act as natural upsert keys: POST to
+    /organizations or /practitioners with a known integration ID updates the
+    existing record rather than creating a duplicate.
+pagination:
+  style: cursor-page-index
+  request_params:
+    - "page[after]"
+  detail: >-
+    Zero-based page index passed as page[after] (e.g. page[after]=1 for the
+    second page). Applies to GET /compliance_report.
+  response_fields:
+    - links.next.href
+  note: >-
+    The response "links" key is only present when more pages exist; it carries a
+    relative URL to fetch the next page.
+filtering:
+  style: bracket-filter
+  params:
+    - "filter[startDate]"
+    - "filter[endDate]"
+    - "filter[locationId]"
+    - "filter[completeIncomplete]"
+  detail: >-
+    JSON:API-style bracketed filter parameters on GET /compliance_report. Dates
+    are ISO 8601; completeIncomplete defaults to "complete".
+content_negotiation:
+  style: accept-header
+  formats:
+    - application/json
+    - text/csv
+  detail: >-
+    GET /compliance_report honors the Accept header to return either JSON or CSV.
+error_envelope:
+  format: custom
+  detail: >-
+    Field errors under errors[] (parameterName + errorDescription); warnings and
+    general info under additionalInformation[] (parameterName + description);
+    parameterName "_" denotes general (non-field) messages. See
+    errors/careacademy-problem-types.yml.
+versioning:
+  scheme: uri-path
+  current: v1
+  spec_version: 1.0.10
+  detail: API version pinned in the base path (/api/v1). See lifecycle/careacademy-lifecycle.yml.
+identifiers:
+  model: integration-ids
+  detail: >-
+    The API is keyed on caller-owned "integration IDs" — an entity's unique ID in
+    the integration partner's own system (organizationIntegrationId,
+    adminIntegrationId, practitioner integrationId, userIntegrationId). These are
+    expected to be unique within the integration context and are reused across
+    subsequent calls (e.g. userIntegrationId on /sign_in_url must match the
+    practitioner integrationId used on POST /practitioners).
+data_standards:
+  detail: >-
+    Practitioner name and contact fields follow HL7 FHIR datatypes (HumanName,
+    ContactPoint). See conformance/careacademy-conformance.yml.
+rate_limits:
+  documented: false
+  detail: No published rate-limit signaling was found in the spec or docs.

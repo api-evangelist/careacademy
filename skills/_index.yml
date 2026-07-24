@@ -1,0 +1,17 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/careacademy-openapi-original.yml
+skills:
+  - file: careacademy-onboard-agency.md
+    name: Onboard an agency and its caregivers to CareAcademy
+    api: openapi/careacademy-openapi-original.yml
+    operations:
+      - "POST /organizations/{organizationIntegrationId}"
+      - "POST /locations/{organizationIntegrationId}"
+      - "POST /practitioners"
+      - "GET /sign_in_url"
+  - file: careacademy-pull-compliance-report.md
+    name: Pull an agency's CareAcademy compliance report
+    api: openapi/careacademy-openapi-original.yml
+    operations:
+      - "GET /compliance_report/{organizationIntegrationId}"

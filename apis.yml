@@ -1,20 +1,124 @@
 aid: careacademy
 name: CareAcademy
-description: CareAcademy is a company surfaced as a portfolio company of techstars and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  CareAcademy (part of Activated Insights) is an online training, compliance, and
+  workforce-management platform for post-acute care — home care, home health,
+  hospice, and senior living organizations. It automates regulatory training
+  assignment, caregiver onboarding, and audit-ready compliance reporting for
+  2,500+ organizations and 800K+ caregivers. The CareAcademy API lets integration
+  partners (home-care software platforms) create agency organizations and
+  caregivers, provide Single Sign-On into CareAcademy from their own product, and
+  query course-completion and compliance data in real time. The partner API is an
+  OpenAPI 3.0 REST interface using HTTP Basic authentication, published on
+  SwaggerHub, with named integrations for WellSky, AxisCare, AlayaCare, eRSP,
+  Aaniie, and Spectrum TeleTrack Services.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://careacademy.com/wp-content/uploads/2022/09/CA-Logo.png
 url: https://raw.githubusercontent.com/api-evangelist/careacademy/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - techstars
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: public-partner-api
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Training
+- Education
+- Compliance
+- Home Care
+- Home Health
+- Hospice
+- Senior Living
+- Healthcare
+- Workforce Management
+- Single Sign-On
+- Caregivers
+apis:
+- aid: careacademy:careacademy-compliance-report-api
+  name: CareAcademy Compliance Report API
+  description: The Compliance Report API from CareAcademy — 1 operation(s) for compliance report.
+  humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  baseURL: https://go.careacademy.com/api/v1
+  tags:
+  - Compliance Report
+  properties:
+  - type: OpenAPI
+    url: openapi/careacademy-compliance-report-api-openapi.yml
+  - type: Documentation
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+- aid: careacademy:careacademy-locations-api
+  name: CareAcademy Locations API
+  description: The Locations API from CareAcademy — 1 operation(s) for locations.
+  humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  baseURL: https://go.careacademy.com/api/v1
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/careacademy-locations-api-openapi.yml
+  - type: Documentation
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+- aid: careacademy:careacademy-organizations-api
+  name: CareAcademy Organizations API
+  description: The Organizations API from CareAcademy — 1 operation(s) for organizations.
+  humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  baseURL: https://go.careacademy.com/api/v1
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/careacademy-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+- aid: careacademy:careacademy-practitioners-api
+  name: CareAcademy Practitioners API
+  description: The Practitioners API from CareAcademy — 2 operation(s) for practitioners.
+  humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  baseURL: https://go.careacademy.com/api/v1
+  tags:
+  - Practitioners
+  properties:
+  - type: OpenAPI
+    url: openapi/careacademy-practitioners-api-openapi.yml
+  - type: Documentation
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+- aid: careacademy:careacademy-sign-in-url-api
+  name: CareAcademy Sign In Url API
+  description: The Sign In Url API from CareAcademy — 1 operation(s) for sign in url.
+  humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  baseURL: https://go.careacademy.com/api/v1
+  tags:
+  - Sign In Url
+  properties:
+  - type: OpenAPI
+    url: openapi/careacademy-sign-in-url-api-openapi.yml
+  - type: Documentation
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+  - type: APIReference
+    url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -23,3 +127,56 @@ maintainers:
 common:
 - type: Website
   url: https://careacademy.com/
+- type: DeveloperPortal
+  url: https://activatedinsights.com/training/api/
+- type: Documentation
+  url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+- type: APIReference
+  url: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
+- type: GettingStarted
+  url: https://activatedinsights.com/training/api/
+- type: Support
+  url: https://help.careacademy.com/hc/en-us
+- type: Blog
+  url: https://careacademy.com/resources/?_sorting_by_category=blog
+- type: Pricing
+  url: https://careacademy.com/pricing/
+- type: SignUp
+  url: https://go.careacademy.com/signup
+- type: Login
+  url: https://go.careacademy.com/users/sign_in
+- type: TermsOfService
+  url: https://careacademy.com/?page_id=603
+- type: PrivacyPolicy
+  url: https://activatedinsights.com/privacy-policy/
+- type: StatusPage
+  url: https://status.careacademy.com
+- type: Authentication
+  url: authentication/careacademy-authentication.yml
+- type: Conventions
+  url: conventions/careacademy-conventions.yml
+- type: ErrorCatalog
+  url: errors/careacademy-problem-types.yml
+- type: DataModel
+  url: data-model/careacademy-data-model.yml
+- type: Conformance
+  url: conformance/careacademy-conformance.yml
+- type: Lifecycle
+  url: lifecycle/careacademy-lifecycle.yml
+- type: Sandbox
+  url: sandbox/careacademy-sandbox.yml
+- type: MCPServer
+  url: mcp/careacademy-mcp.yml
+- type: LLMsTxt
+  url: llms/careacademy-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Integrations
+  url: integrations/_index.yml
+- type: DomainSecurity
+  url: security/careacademy-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
