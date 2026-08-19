@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CareAcademy Compliance Report Sign In Url API",
+    "version": "1.0.10"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sign In Url",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a sign in url for a given user for Single Sign On. Either userIntegrationId or email is required. User integration ID is preferred.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://staging.careacademy.com/api/v1/sign_in_url",
+            "params": [
+              {
+                "name": "userIntegrationId",
+                "value": "",
+                "type": "query",
+                "description": "The external system's user ID. This is typically the ID of the user's record in the system making a call to the CareAcademy API."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the user being signed in."
+              }
+            ]
+          },
+          "docs": "Retrieve a sign in url for a given user for Single Sign On. Either userIntegrationId or email is required. User integration ID is preferred."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

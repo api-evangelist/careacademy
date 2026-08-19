@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CareAcademy Compliance Report API",
+    "version": "1.0.10"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compliance Report",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a copy of the compliance report.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://staging.careacademy.com/api/v1/compliance_report/:organizationIntegrationId",
+            "headers": [
+              {
+                "name": "Accept",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "organizationIntegrationId",
+                "value": "",
+                "type": "path",
+                "description": "The integration ID for the organization. This is the same value passed as the organizationIntegrationId parameter to the Organizations POST API endpoint."
+              },
+              {
+                "name": "filter[startDate]",
+                "value": "",
+                "type": "query",
+                "description": "The starting date of the report you wish to pull. If a date is passed and is unrecognized as a valid date it will return an 'invalid date' error. Date should be in ISO 8601 format."
+              },
+              {
+                "name": "filter[locationId]",
+                "value": "",
+                "type": "query",
+                "description": "The location ID of the location to retreive data for."
+              },
+              {
+                "name": "filter[endDate]",
+                "value": "",
+                "type": "query",
+                "description": "The ending date of the report you wish to pull. If a date is passed and is unrecognized as a valid date it will return an 'invalid date' error. Date should be in ISO 8601 format. If no value is passed then the report end date defaults to the current time."
+              },
+              {
+                "name": "filter[completeIncomplete]",
+                "value": "",
+                "type": "query",
+                "description": "Specifies whether you wish to see a report of all completed courses, or courses that are not yet completed. The default for this parameter is “complete”. If a value of “incomplete” is passed, it will return the courses that are incomplete."
+              },
+              {
+                "name": "page[after]",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the zero based index of the page of data that you would like to retrieve. For example, if you would like the second page of data then you would provide page[after]=1, or you would provide page[after]=2 in order to retrieve the third page of data. The response will include the first page of data when no page[after] value is provided. Note: the json response includes a \"links\" key which will contain a relative url that you can use to retrieve the next page of data. The \"links\" key is only included in the response when there are multiple pages of data"
+              }
+            ]
+          },
+          "docs": "Returns a copy of the compliance report."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

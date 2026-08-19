@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CareAcademy Compliance Report Locations API",
+    "version": "1.0.10"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Locations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates an association between an organization and one or more locations. If a location does not exist then it will be created.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://staging.careacademy.com/api/v1/locations/:organizationIntegrationId",
+            "params": [
+              {
+                "name": "organizationIntegrationId",
+                "value": "",
+                "type": "path",
+                "description": "The integration ID for the organization. This is the same value passed as the organizationIntegrationId parameter to the Organizations POST API endpoint."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an association between an organization and one or more locations. If a location does not exist then it will be created."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

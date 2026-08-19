@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CareAcademy Compliance Report Organizations API",
+    "version": "1.0.10"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an organization.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://staging.careacademy.com/api/v1/organizations/:organizationIntegrationId",
+            "params": [
+              {
+                "name": "organizationIntegrationId",
+                "value": "",
+                "type": "path",
+                "description": "The external system's organization ID. For example, if you have multiple agencies in your system, you can provide any unique identifier for your agency."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an organization."
+        },
+        {
+          "info": {
+            "name": "Flags an existing organization for review in order to associate the organization with a set of locations.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://staging.careacademy.com/api/v1/organizations/:organizationIntegrationId",
+            "params": [
+              {
+                "name": "organizationIntegrationId",
+                "value": "",
+                "type": "path",
+                "description": "The integration ID for the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Flags an existing organization for review in order to associate the organization with a set of locations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

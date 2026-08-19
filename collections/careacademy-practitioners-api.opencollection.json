@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CareAcademy Compliance Report Practitioners API",
+    "version": "1.0.10"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Practitioners",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates a practitioner. If a practitioner already exists within CareAcademy but has not been linked yet to the integration, this will do so by setting integrationId for the first time with this call.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://staging.careacademy.com/api/v1/practitioners",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a practitioner. If a practitioner already exists within CareAcademy but has not been linked yet to the integration, this will do so by setting integrationId for the first time with this call."
+        },
+        {
+          "info": {
+            "name": "Updates a practitioner.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://staging.careacademy.com/api/v1/practitioners/:integrationId",
+            "params": [
+              {
+                "name": "integrationId",
+                "value": "",
+                "type": "path",
+                "description": "The practitioner's integration ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a practitioner."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
