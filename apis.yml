@@ -83,6 +83,8 @@ apis:
   humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
   baseURL: https://go.careacademy.com/api/v1
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
