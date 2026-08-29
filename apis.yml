@@ -139,6 +139,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/careacademy-capability-edges.yml
+  name: CareAcademy Business Capability Map
 - type: Overlay
   url: overlays/careacademy-overlay.yaml
 - type: Website

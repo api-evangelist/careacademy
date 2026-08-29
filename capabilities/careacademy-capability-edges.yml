@@ -1,0 +1,26 @@
+slug: careacademy
+provider: CareAcademy
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Healthcare Providers
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Compliance Report
+  spec_file: careacademy-compliance-report-api-openapi.yml
+  capability_id: BC-300.40
+  capability_id_l1: BC-300
+  capability_name: Learning & Development Management
+  confidence: 0.7
+  evidence: GET /compliance_report/{organizationIntegrationId} 'Returns a copy of the compliance report';
+    'Query CareAcademy for an organization's course completion and compliance information'
+  reason: The report aggregates caregiver course completion against required regulatory training, which
+    is training and certification tracking within Learning & Development. It could alternatively be framed
+    as regulatory compliance reporting (BC-130.10), so confidence is moderate.
