@@ -60,6 +60,19 @@ tags:
 - Senior Living
 - Healthcare
 - Workforce Management
+- SSO
+- Caregivers
+tags_raw:
+- Company
+- Training
+- Education
+- Compliance
+- Home Care
+- Home Health
+- Hospice
+- Senior Living
+- Healthcare
+- Workforce Management
 - Single Sign-On
 - Caregivers
 apis:
@@ -83,6 +96,8 @@ apis:
   humanURL: https://app.swaggerhub.com/apis-docs/CareAcademy/CareAcademy/1.0.10
   baseURL: https://go.careacademy.com/api/v1
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
