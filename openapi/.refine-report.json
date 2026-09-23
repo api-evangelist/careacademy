@@ -1,11 +1,7 @@
 {
   "provider": "careacademy",
   "sources": [
-    "careacademy-compliance-report-api-openapi.yml",
-    "careacademy-locations-api-openapi.yml",
-    "careacademy-organizations-api-openapi.yml",
-    "careacademy-practitioners-api-openapi.yml",
-    "careacademy-sign-in-url-api-openapi.yml"
+    "_original/careacademy-openapi-original.yml"
   ],
   "outputs": [
     "careacademy-compliance-report-api-openapi.yml",
@@ -17,6 +13,28 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "careacademy-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "careacademy-openapi-original.yml: tagged paths POST /organizations/{organizationIntegrationId} -> Organizations",
+    "careacademy-openapi-original.yml: tagged paths PUT /organizations/{organizationIntegrationId} -> Organizations",
+    "careacademy-openapi-original.yml: tagged paths POST /locations/{organizationIntegrationId} -> Locations",
+    "careacademy-openapi-original.yml: tagged paths GET /sign_in_url -> Sign In Url",
+    "careacademy-openapi-original.yml: tagged paths GET /compliance_report/{organizationIntegrationId} -> Compliance Report",
+    "careacademy-openapi-original.yml: tagged paths POST /practitioners -> Practitioners",
+    "careacademy-openapi-original.yml: tagged paths PUT /practitioners/{integrationId} -> Practitioners",
+    "careacademy-openapi-original.yml: declared missing tag: Compliance Report",
+    "careacademy-openapi-original.yml: declared missing tag: Locations",
+    "careacademy-openapi-original.yml: declared missing tag: Organizations",
+    "careacademy-openapi-original.yml: declared missing tag: Practitioners",
+    "careacademy-openapi-original.yml: declared missing tag: Sign In Url",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "careacademy-compliance-report-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "careacademy-locations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "careacademy-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "careacademy-practitioners-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "careacademy-sign-in-url-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
