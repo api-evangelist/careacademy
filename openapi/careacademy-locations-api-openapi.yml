@@ -60,9 +60,48 @@ paths:
       operationId: postLocationsByOrganizationIntegrationId
       x-operation-id-source: derived
 components:
+  schemas:
+    LocationCreateOrUpdateResponse:
+      type: object
+      properties:
+        additionalInformation:
+          description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+          type: array
+          items:
+            type: object
+            properties:
+              parameterName:
+                type: string
+              description:
+                type: string
+        locations:
+          type: array
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Location'
+    LocationArray:
+      properties:
+        locations:
+          type: array
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Location'
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        resourceType:
+          type: string
+          enum:
+          - Location
   responses:
-    LocationCreateOrUpdatePartialSuccess:
-      description: The operation was partially successful. One or more loations could not be created. See the additionalInformation response property for more information.
+    LocationCreateOrUpdateSuccess:
+      description: The operation was successful.
       content:
         '*/*':
           schema:
@@ -71,8 +110,6 @@ components:
             - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
     UnauthorizedError:
       description: Authentication information is missing or invalid
-    Forbidden:
-      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
     BadRequest:
       description: Bad Request. One or more required parameters are missing or invalid.
       content:
@@ -100,53 +137,16 @@ components:
                       type: string
                     errorDescription:
                       type: string
-    LocationCreateOrUpdateSuccess:
-      description: The operation was successful.
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+    LocationCreateOrUpdatePartialSuccess:
+      description: The operation was partially successful. One or more loations could not be created. See the additionalInformation response property for more information.
       content:
         '*/*':
           schema:
             type: object
             allOf:
             - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
-  schemas:
-    LocationCreateOrUpdateResponse:
-      type: object
-      properties:
-        additionalInformation:
-          description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-          type: array
-          items:
-            type: object
-            properties:
-              parameterName:
-                type: string
-              description:
-                type: string
-        locations:
-          type: array
-          items:
-            type: object
-            allOf:
-            - $ref: '#/components/schemas/Location'
-    Location:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: string
-          enum:
-          - Location
-    LocationArray:
-      properties:
-        locations:
-          type: array
-          items:
-            type: object
-            allOf:
-            - $ref: '#/components/schemas/Location'
   securitySchemes:
     BasicAuth:
       type: http

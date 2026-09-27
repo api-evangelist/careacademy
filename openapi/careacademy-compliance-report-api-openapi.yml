@@ -105,6 +105,8 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
     BadRequest:
       description: Bad Request. One or more required parameters are missing or invalid.
       content:
@@ -132,8 +134,6 @@ components:
                       type: string
                     errorDescription:
                       type: string
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
   securitySchemes:
     BasicAuth:
       type: http

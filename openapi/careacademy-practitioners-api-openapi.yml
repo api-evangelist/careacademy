@@ -95,6 +95,97 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ContactPoint:
+      description: 'The mobile phone number and email address of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#ContactPoint'
+      type: object
+      required:
+      - system
+      - value
+      properties:
+        system:
+          description: The type of contact point. Use "phone" for mobile phone and "email" for email address. All other system types are ignored.
+          type: string
+          enum:
+          - email
+          - phone
+        value:
+          description: The value, for example if the system is "email" then the value would be the email address of the practitioner.
+          type: string
+      example:
+      - system: email
+        value: jane@careacademy.com
+      - system: phone
+        value: 555-555-1234
+    HumanName:
+      description: 'The name of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#humanname'
+      type: object
+      required:
+      - use
+      - family
+      - given
+      properties:
+        text:
+          type: string
+          description: The full name of the practitioner
+        use:
+          type: string
+          description: The only supported value is "official" - other uses will be ignored.
+        family:
+          type: string
+          description: The family name - often called "surname" or "last name"
+        given:
+          type: array
+          description: Given names. This can include middle name. Often, this will be a single value which is the practictioner's first name.
+          items:
+            type: string
+      example:
+      - text: Jane Smith
+        use: official
+        family: Smith
+        given:
+        - Jane
+    PractitionerResponse:
+      type: object
+      properties:
+        practitionerIntegrationId:
+          type: string
+          description: The unique identifier for the practitioner.
+        status:
+          type: string
+          description: The status of the practitioner.
+          enum:
+          - active
+          - deleted
+          - deactivated
+        active:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        hireDate:
+          type: string
+          format: date
+        isInitialTrainingRequired:
+          type: boolean
+        isAnnualTrainingOverdue:
+          type: boolean
+        licenseNumber:
+          type: string
+        studentType:
+          type: string
+        registrationId:
+          type: string
+        registrationDate:
+          type: string
+          format: date
     PractitionerWithRequiredFields:
       required:
       - integrationId
@@ -155,97 +246,6 @@ components:
           type: string
           format: date
           description: In states that have registries, this date may be required for auditing purposes. The value should follow the format defined by full-date in RFC3339 (https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
-    PractitionerResponse:
-      type: object
-      properties:
-        practitionerIntegrationId:
-          type: string
-          description: The unique identifier for the practitioner.
-        status:
-          type: string
-          description: The status of the practitioner.
-          enum:
-          - active
-          - deleted
-          - deactivated
-        active:
-          type: boolean
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phone:
-          type: string
-        email:
-          type: string
-        birthDate:
-          type: string
-          format: date
-        hireDate:
-          type: string
-          format: date
-        isInitialTrainingRequired:
-          type: boolean
-        isAnnualTrainingOverdue:
-          type: boolean
-        licenseNumber:
-          type: string
-        studentType:
-          type: string
-        registrationId:
-          type: string
-        registrationDate:
-          type: string
-          format: date
-    HumanName:
-      description: 'The name of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#humanname'
-      type: object
-      required:
-      - use
-      - family
-      - given
-      properties:
-        text:
-          type: string
-          description: The full name of the practitioner
-        use:
-          type: string
-          description: The only supported value is "official" - other uses will be ignored.
-        family:
-          type: string
-          description: The family name - often called "surname" or "last name"
-        given:
-          type: array
-          description: Given names. This can include middle name. Often, this will be a single value which is the practictioner's first name.
-          items:
-            type: string
-      example:
-      - text: Jane Smith
-        use: official
-        family: Smith
-        given:
-        - Jane
-    ContactPoint:
-      description: 'The mobile phone number and email address of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#ContactPoint'
-      type: object
-      required:
-      - system
-      - value
-      properties:
-        system:
-          description: The type of contact point. Use "phone" for mobile phone and "email" for email address. All other system types are ignored.
-          type: string
-          enum:
-          - email
-          - phone
-        value:
-          description: The value, for example if the system is "email" then the value would be the email address of the practitioner.
-          type: string
-      example:
-      - system: email
-        value: jane@careacademy.com
-      - system: phone
-        value: 555-555-1234
   responses:
     PractitionerCreateOrUpdateSuccessResponse:
       description: The operation was successful.
@@ -270,8 +270,6 @@ components:
                 - $ref: '#/components/schemas/PractitionerResponse'
     UnauthorizedError:
       description: Authentication information is missing or invalid
-    Forbidden:
-      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
     BadRequest:
       description: Bad Request. One or more required parameters are missing or invalid.
       content:
@@ -299,6 +297,8 @@ components:
                       type: string
                     errorDescription:
                       type: string
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
   securitySchemes:
     BasicAuth:
       type: http
