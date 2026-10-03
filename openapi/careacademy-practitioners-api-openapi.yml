@@ -94,6 +94,59 @@ paths:
       operationId: putPractitionersByIntegrationId
       x-operation-id-source: derived
 components:
+  responses:
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+    PractitionerCreateOrUpdateSuccessResponse:
+      description: The operation was successful.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              practitioner:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/PractitionerResponse'
+    BadRequest:
+      description: Bad Request. One or more required parameters are missing or invalid.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              errors:
+                description: An array of field errors. For general errors, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    errorDescription:
+                      type: string
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
   schemas:
     ContactPoint:
       description: 'The mobile phone number and email address of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#ContactPoint'
@@ -116,34 +169,6 @@ components:
         value: jane@careacademy.com
       - system: phone
         value: 555-555-1234
-    HumanName:
-      description: 'The name of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#humanname'
-      type: object
-      required:
-      - use
-      - family
-      - given
-      properties:
-        text:
-          type: string
-          description: The full name of the practitioner
-        use:
-          type: string
-          description: The only supported value is "official" - other uses will be ignored.
-        family:
-          type: string
-          description: The family name - often called "surname" or "last name"
-        given:
-          type: array
-          description: Given names. This can include middle name. Often, this will be a single value which is the practictioner's first name.
-          items:
-            type: string
-      example:
-      - text: Jane Smith
-        use: official
-        family: Smith
-        given:
-        - Jane
     PractitionerResponse:
       type: object
       properties:
@@ -186,20 +211,6 @@ components:
         registrationDate:
           type: string
           format: date
-    PractitionerWithRequiredFields:
-      required:
-      - integrationId
-      - name
-      - telecom
-      - email
-      - hireDate
-      - organizationIntegrationId
-      allOf:
-      - $ref: '#/components/schemas/Practitioner'
-      properties:
-        state:
-          type: string
-          description: Providing a state will allow CareAcademy to assign this practitioner to a location in the state specified when locationId is omitted.
     Practitioner:
       type: object
       properties:
@@ -246,59 +257,48 @@ components:
           type: string
           format: date
           description: In states that have registries, this date may be required for auditing purposes. The value should follow the format defined by full-date in RFC3339 (https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
-  responses:
-    PractitionerCreateOrUpdateSuccessResponse:
-      description: The operation was successful.
-      content:
-        '*/*':
-          schema:
-            type: object
-            properties:
-              additionalInformation:
-                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    description:
-                      type: string
-              practitioner:
-                type: object
-                allOf:
-                - $ref: '#/components/schemas/PractitionerResponse'
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
-    BadRequest:
-      description: Bad Request. One or more required parameters are missing or invalid.
-      content:
-        '*/*':
-          schema:
-            type: object
-            properties:
-              additionalInformation:
-                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    description:
-                      type: string
-              errors:
-                description: An array of field errors. For general errors, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    errorDescription:
-                      type: string
-    Forbidden:
-      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+    PractitionerWithRequiredFields:
+      required:
+      - integrationId
+      - name
+      - telecom
+      - email
+      - hireDate
+      - organizationIntegrationId
+      allOf:
+      - $ref: '#/components/schemas/Practitioner'
+      properties:
+        state:
+          type: string
+          description: Providing a state will allow CareAcademy to assign this practitioner to a location in the state specified when locationId is omitted.
+    HumanName:
+      description: 'The name of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#humanname'
+      type: object
+      required:
+      - use
+      - family
+      - given
+      properties:
+        text:
+          type: string
+          description: The full name of the practitioner
+        use:
+          type: string
+          description: The only supported value is "official" - other uses will be ignored.
+        family:
+          type: string
+          description: The family name - often called "surname" or "last name"
+        given:
+          type: array
+          description: Given names. This can include middle name. Often, this will be a single value which is the practictioner's first name.
+          items:
+            type: string
+      example:
+      - text: Jane Smith
+        use: official
+        family: Smith
+        given:
+        - Jane
   securitySchemes:
     BasicAuth:
       type: http

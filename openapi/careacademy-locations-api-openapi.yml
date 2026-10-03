@@ -60,6 +60,54 @@ paths:
       operationId: postLocationsByOrganizationIntegrationId
       x-operation-id-source: derived
 components:
+  responses:
+    LocationCreateOrUpdateSuccess:
+      description: The operation was successful.
+      content:
+        '*/*':
+          schema:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+    LocationCreateOrUpdatePartialSuccess:
+      description: The operation was partially successful. One or more loations could not be created. See the additionalInformation response property for more information.
+      content:
+        '*/*':
+          schema:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
+    BadRequest:
+      description: Bad Request. One or more required parameters are missing or invalid.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              errors:
+                description: An array of field errors. For general errors, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    errorDescription:
+                      type: string
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
   schemas:
     LocationCreateOrUpdateResponse:
       type: object
@@ -99,54 +147,6 @@ components:
           type: string
           enum:
           - Location
-  responses:
-    LocationCreateOrUpdateSuccess:
-      description: The operation was successful.
-      content:
-        '*/*':
-          schema:
-            type: object
-            allOf:
-            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
-    BadRequest:
-      description: Bad Request. One or more required parameters are missing or invalid.
-      content:
-        '*/*':
-          schema:
-            type: object
-            properties:
-              additionalInformation:
-                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    description:
-                      type: string
-              errors:
-                description: An array of field errors. For general errors, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    errorDescription:
-                      type: string
-    Forbidden:
-      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
-    LocationCreateOrUpdatePartialSuccess:
-      description: The operation was partially successful. One or more loations could not be created. See the additionalInformation response property for more information.
-      content:
-        '*/*':
-          schema:
-            type: object
-            allOf:
-            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
   securitySchemes:
     BasicAuth:
       type: http
