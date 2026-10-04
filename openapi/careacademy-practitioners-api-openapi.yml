@@ -94,123 +94,7 @@ paths:
       operationId: putPractitionersByIntegrationId
       x-operation-id-source: derived
 components:
-  responses:
-    Forbidden:
-      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
-    PractitionerCreateOrUpdateSuccessResponse:
-      description: The operation was successful.
-      content:
-        '*/*':
-          schema:
-            type: object
-            properties:
-              additionalInformation:
-                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    description:
-                      type: string
-              practitioner:
-                type: object
-                allOf:
-                - $ref: '#/components/schemas/PractitionerResponse'
-    BadRequest:
-      description: Bad Request. One or more required parameters are missing or invalid.
-      content:
-        '*/*':
-          schema:
-            type: object
-            properties:
-              additionalInformation:
-                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    description:
-                      type: string
-              errors:
-                description: An array of field errors. For general errors, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    errorDescription:
-                      type: string
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
   schemas:
-    ContactPoint:
-      description: 'The mobile phone number and email address of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#ContactPoint'
-      type: object
-      required:
-      - system
-      - value
-      properties:
-        system:
-          description: The type of contact point. Use "phone" for mobile phone and "email" for email address. All other system types are ignored.
-          type: string
-          enum:
-          - email
-          - phone
-        value:
-          description: The value, for example if the system is "email" then the value would be the email address of the practitioner.
-          type: string
-      example:
-      - system: email
-        value: jane@careacademy.com
-      - system: phone
-        value: 555-555-1234
-    PractitionerResponse:
-      type: object
-      properties:
-        practitionerIntegrationId:
-          type: string
-          description: The unique identifier for the practitioner.
-        status:
-          type: string
-          description: The status of the practitioner.
-          enum:
-          - active
-          - deleted
-          - deactivated
-        active:
-          type: boolean
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phone:
-          type: string
-        email:
-          type: string
-        birthDate:
-          type: string
-          format: date
-        hireDate:
-          type: string
-          format: date
-        isInitialTrainingRequired:
-          type: boolean
-        isAnnualTrainingOverdue:
-          type: boolean
-        licenseNumber:
-          type: string
-        studentType:
-          type: string
-        registrationId:
-          type: string
-        registrationDate:
-          type: string
-          format: date
     Practitioner:
       type: object
       properties:
@@ -299,6 +183,122 @@ components:
         family: Smith
         given:
         - Jane
+    PractitionerResponse:
+      type: object
+      properties:
+        practitionerIntegrationId:
+          type: string
+          description: The unique identifier for the practitioner.
+        status:
+          type: string
+          description: The status of the practitioner.
+          enum:
+          - active
+          - deleted
+          - deactivated
+        active:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        hireDate:
+          type: string
+          format: date
+        isInitialTrainingRequired:
+          type: boolean
+        isAnnualTrainingOverdue:
+          type: boolean
+        licenseNumber:
+          type: string
+        studentType:
+          type: string
+        registrationId:
+          type: string
+        registrationDate:
+          type: string
+          format: date
+    ContactPoint:
+      description: 'The mobile phone number and email address of the practitioner. Further documentation here: https://www.hl7.org/fhir/datatypes.html#ContactPoint'
+      type: object
+      required:
+      - system
+      - value
+      properties:
+        system:
+          description: The type of contact point. Use "phone" for mobile phone and "email" for email address. All other system types are ignored.
+          type: string
+          enum:
+          - email
+          - phone
+        value:
+          description: The value, for example if the system is "email" then the value would be the email address of the practitioner.
+          type: string
+      example:
+      - system: email
+        value: jane@careacademy.com
+      - system: phone
+        value: 555-555-1234
+  responses:
+    PractitionerCreateOrUpdateSuccessResponse:
+      description: The operation was successful.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              practitioner:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/PractitionerResponse'
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+    BadRequest:
+      description: Bad Request. One or more required parameters are missing or invalid.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              errors:
+                description: An array of field errors. For general errors, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    errorDescription:
+                      type: string
   securitySchemes:
     BasicAuth:
       type: http

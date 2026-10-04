@@ -60,25 +60,46 @@ paths:
       operationId: postLocationsByOrganizationIntegrationId
       x-operation-id-source: derived
 components:
+  schemas:
+    LocationArray:
+      properties:
+        locations:
+          type: array
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Location'
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        resourceType:
+          type: string
+          enum:
+          - Location
+    LocationCreateOrUpdateResponse:
+      type: object
+      properties:
+        additionalInformation:
+          description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+          type: array
+          items:
+            type: object
+            properties:
+              parameterName:
+                type: string
+              description:
+                type: string
+        locations:
+          type: array
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Location'
   responses:
-    LocationCreateOrUpdateSuccess:
-      description: The operation was successful.
-      content:
-        '*/*':
-          schema:
-            type: object
-            allOf:
-            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
-    Forbidden:
-      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
-    LocationCreateOrUpdatePartialSuccess:
-      description: The operation was partially successful. One or more loations could not be created. See the additionalInformation response property for more information.
-      content:
-        '*/*':
-          schema:
-            type: object
-            allOf:
-            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
     BadRequest:
       description: Bad Request. One or more required parameters are missing or invalid.
       content:
@@ -108,45 +129,24 @@ components:
                       type: string
     UnauthorizedError:
       description: Authentication information is missing or invalid
-  schemas:
-    LocationCreateOrUpdateResponse:
-      type: object
-      properties:
-        additionalInformation:
-          description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-          type: array
-          items:
-            type: object
-            properties:
-              parameterName:
-                type: string
-              description:
-                type: string
-        locations:
-          type: array
-          items:
+    LocationCreateOrUpdateSuccess:
+      description: The operation was successful.
+      content:
+        '*/*':
+          schema:
             type: object
             allOf:
-            - $ref: '#/components/schemas/Location'
-    LocationArray:
-      properties:
-        locations:
-          type: array
-          items:
+            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
+    Forbidden:
+      description: The identity associated with the API credentials for this request is not allowed to perform the requested operation.
+    LocationCreateOrUpdatePartialSuccess:
+      description: The operation was partially successful. One or more loations could not be created. See the additionalInformation response property for more information.
+      content:
+        '*/*':
+          schema:
             type: object
             allOf:
-            - $ref: '#/components/schemas/Location'
-    Location:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: string
-          enum:
-          - Location
+            - $ref: '#/components/schemas/LocationCreateOrUpdateResponse'
   securitySchemes:
     BasicAuth:
       type: http

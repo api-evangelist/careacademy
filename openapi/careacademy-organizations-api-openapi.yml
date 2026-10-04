@@ -111,6 +111,38 @@ paths:
       operationId: putOrganizationsByOrganizationIntegrationId
       x-operation-id-source: derived
 components:
+  responses:
+    BadRequest:
+      description: Bad Request. One or more required parameters are missing or invalid.
+      content:
+        '*/*':
+          schema:
+            type: object
+            properties:
+              additionalInformation:
+                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    description:
+                      type: string
+              errors:
+                description: An array of field errors. For general errors, the parameterName value will be "_".
+                type: array
+                items:
+                  type: object
+                  properties:
+                    parameterName:
+                      type: string
+                    errorDescription:
+                      type: string
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+    OrganizationsAccepted:
+      description: The request has been queued for manual processing. This response is issued when the provided information needs to be manually verified by CareAcademy staff because the provided organization and admin information is not sufficient to link an account with an existing CareAcademy organization.
   schemas:
     OrganizationsRequest:
       type: object
@@ -143,38 +175,6 @@ components:
         adminIntegrationId:
           type: string
           description: The organization administrator's integration ID. This is typically the ID of the administrator's record in the system making a call to the CareAcademy API. This ID can be used in subsequent calls to the CareAcademy API.
-  responses:
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
-    OrganizationsAccepted:
-      description: The request has been queued for manual processing. This response is issued when the provided information needs to be manually verified by CareAcademy staff because the provided organization and admin information is not sufficient to link an account with an existing CareAcademy organization.
-    BadRequest:
-      description: Bad Request. One or more required parameters are missing or invalid.
-      content:
-        '*/*':
-          schema:
-            type: object
-            properties:
-              additionalInformation:
-                description: Information and warnings regarding any problems with the request. For general warnings, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    description:
-                      type: string
-              errors:
-                description: An array of field errors. For general errors, the parameterName value will be "_".
-                type: array
-                items:
-                  type: object
-                  properties:
-                    parameterName:
-                      type: string
-                    errorDescription:
-                      type: string
   securitySchemes:
     BasicAuth:
       type: http
